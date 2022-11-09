@@ -118,22 +118,19 @@ std::string getPassword(const bool& mode) { // true - password, false - verify p
     int counter = 0;
     int x, y;
     std::string password;
+    float complexity = 100;
 
     while (true) {
         rlutil::cls();
-        float complexity = checkPasswordComplexity(password);
 
         if(mode) {
+            complexity = checkPasswordComplexity(password);
             printComplexity(int(complexity), password);
-            x = 11;
-            y = 4;
+            x = 11; y = 4;
             rlutil::locate(1, 4);
             std::cout << "Password: ";
         } else {
-            std::cout << "Complexity of password: " << complexity << "\n";
-            x = 18;
-            y = 4;
-            rlutil::locate(1, 4);
+            x = 18; y = 1;
             std::cout << "Verify password: ";
         }
         rlutil::locate(x, y);
@@ -153,6 +150,8 @@ std::string getPassword(const bool& mode) { // true - password, false - verify p
             }
         }
         else if (ch == '\n') {
+            if(!mode)
+                break;
             if(complexity >= 50 && password.size() >= 10)
                 break;
             else continue;
@@ -168,7 +167,9 @@ std::string getPassword(const bool& mode) { // true - password, false - verify p
 }
 
 int main() {
-    std::string password = getPassword(true);
+    bool mode;  std::cin >> mode;
+    std::cin.ignore();
+    std::string password = getPassword(mode);
     std::cout << "\n\nread: " << password << "\n";
     return 0;
 }
