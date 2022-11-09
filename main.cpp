@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include "rlutil.h"
+#include <thread>
 
 bool checkSymbols(const std::string& password) {
     std::vector<char> symbols = {'@', '_', ',', '!', '.', '-', ';', '+', '/', '?', '|', ']', '[', '=', '(', ')', '*', '&', '^', '%', '$', '#', '\\', '`', '~', '<', '>'};
@@ -27,7 +28,7 @@ bool checkLowercaseLetters(const std::string& password) {
 }
 
 float checkPasswordComplexity(const std::string& password) {
-    float complexity = 5;
+    float complexity = 50;
 
     bool symbolsFound = checkSymbols(password);
 
@@ -37,22 +38,80 @@ float checkPasswordComplexity(const std::string& password) {
     bool lowercaseLettersFound = checkLowercaseLetters(password);
 
     if(symbolsFound)
-        complexity += 1.25;
-    else complexity -= 1.25;
+        complexity += 12.5;
+    else complexity -= 12.5;
 
     if(numbersFound)
-        complexity += 1.25;
-    else complexity -= 1.25;
+        complexity += 12.5;
+    else complexity -= 12.5;
 
     if(uppercaseLettersFound)
-        complexity += 1.25;
-    else complexity -= 1.25;
+        complexity += 12.5;
+    else complexity -= 12.5;
 
     if(lowercaseLettersFound)
-        complexity += 1.25;
-    else complexity -= 1.25;
+        complexity += 12.5;
+    else complexity -= 12.5;
 
     return complexity;
+}
+
+void initialPrintForPassword(const int& complexity, const std::string& password) {
+    rlutil::setColor(7);
+    std::cout << "Minimum number of characters of the password: 10";
+    if(password.size() >= 10) {
+        rlutil::setColor(10);
+        std::cout << " ✔\n";
+    } else std::cout << "\n";
+    rlutil::setColor(7);
+    std::cout << "Minimum complexity of password: ";
+    rlutil::setColor(14);
+    std::cout << "[■■■■■■■■■■■■■■■■                ]";
+    if(complexity >= 50) {
+        rlutil::setColor(10);
+        std::cout << " ✔\n";
+    } else std::cout << "\n";
+    rlutil::setColor(7);
+    std::cout << "Complexity of your password:    ";
+    rlutil::setColor(12);
+    std::cout << "[                                ]";
+}
+
+void printComplexity(const int& complexity, const std::string& password) {
+    initialPrintForPassword(complexity, password);
+
+    rlutil::locate(33, 3);
+    switch(complexity) {
+        case 25:
+            rlutil::setColor(13);
+            std::cout << "[■■■■■■■■                        ]\n";
+            rlutil::setColor(12);
+            rlutil::locate(1, 5);
+            std::cout << "Password too weak.\n";
+            break;
+        case 50:
+            rlutil::setColor(14);
+            std::cout << "[■■■■■■■■■■■■■■■■                ]\n";
+            rlutil::locate(1, 5);
+            std::cout << "Unsafe password.\n";
+            break;
+        case 75:
+            rlutil::setColor(10);
+            std::cout << "[■■■■■■■■■■■■■■■■■■■■■■■■        ]\n";
+            rlutil::locate(1, 5);
+            std::cout << "Decent password.\n";
+            break;
+        case 100:
+            rlutil::setColor(11);
+            std::cout << "[■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■]\n";
+            rlutil::locate(1, 5);
+            std::cout << "Great password.\n";
+            break;
+        default:
+            break;
+    }
+
+    rlutil::setColor(7);
 }
 
 std::string getPassword(const bool& mode) { // true - password, false - verify password
@@ -65,16 +124,16 @@ std::string getPassword(const bool& mode) { // true - password, false - verify p
         float complexity = checkPasswordComplexity(password);
 
         if(mode) {
-            std::cout << "Complexity of password: " << complexity << "\n";
+            printComplexity(int(complexity), password);
             x = 11;
-            y = 2;
-            rlutil::locate(1, 2);
+            y = 4;
+            rlutil::locate(1, 4);
             std::cout << "Password: ";
         } else {
             std::cout << "Complexity of password: " << complexity << "\n";
             x = 18;
-            y = 2;
-            rlutil::locate(1, 2);
+            y = 4;
+            rlutil::locate(1, 4);
             std::cout << "Verify password: ";
         }
         rlutil::locate(x, y);
@@ -93,7 +152,11 @@ std::string getPassword(const bool& mode) { // true - password, false - verify p
                 password.erase(password.length() - 1);
             }
         }
-        else if (ch == '\n') break;
+        else if (ch == '\n') {
+            if(complexity >= 50 && password.size() >= 10)
+                break;
+            else continue;
+        }
         else {
             counter++;
             std::cout << '*';
