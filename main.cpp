@@ -169,6 +169,6 @@ std::string getPassword(const bool& mode) { // true - password, false - verify p
 
 int main() {
     std::string password = getPassword(true);
-    std::cout << "\nread: " << password << "\n";
+    std::cout << "\n\nread: " << password << "\n";
     return 0;
 }
