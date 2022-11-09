@@ -4,7 +4,7 @@
 #include <thread>
 
 bool checkSymbols(const std::string& password) {
-    std::vector<char> symbols = {'@', '_', ',', '!', '.', '-', ';', '+', '/', '?', '|', ']', '[', '=', '(', ')', '*', '&', '^', '%', '$', '#', '\\', '`', '~', '<', '>'};
+    std::vector<char> symbols = {'@', '_', ',', '!', '.', '-', ';', '+', '/', '?', '|', ']', '[', '=', '(', ')', '*', '&', '^', '%', '$', '#', '\\', '`', '~', '<', '>', '{', '}', ':'};
     return std::any_of(symbols.begin(), symbols.end(),
                        [&password](const auto& s){ return password.find(s) != std::string::npos; });
 }
