@@ -1,0 +1,3 @@
+/Users/levismac/Documents/CLION/testProiect/cmake-build-debug/CMakeFiles/testProiect.dir
+/Users/levismac/Documents/CLION/testProiect/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/levismac/Documents/CLION/testProiect/cmake-build-debug/CMakeFiles/rebuild_cache.dir
