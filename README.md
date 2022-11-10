@@ -4,7 +4,7 @@ Implemented a short and simple password complexity checker for my OOP project.
 
 Password automatically hidden when entered, and it also calculates the complexity of the password (upper/lowercase letters, symbols and numbers are considered here).
 
-It won't let you press enter/save the password if you don't have the minimum requirements (10 characters and a "yellow-level" complexity.
+It won't let you press enter/save the password if you don't have the minimum requirements (10 characters and a "yellow-level" complexity. The "Your complexity" bar will be updated in live time.
 
 <img width="569" alt="image" src="https://user-images.githubusercontent.com/92024800/201108020-731a3fa9-55a9-4dbf-bdd9-1fa4cf3bc1df.png">
 
